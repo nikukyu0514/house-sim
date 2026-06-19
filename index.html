@@ -335,7 +335,6 @@ input[type=range]::-moz-range-thumb {
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
-
 <script>
 /* =========================================================================
    住宅購入リスクシミュレーター — 計算エンジン (純粋JS / window.Calc)
@@ -850,7 +849,6 @@ input[type=range]::-moz-range-thumb {
 })();
 
 </script>
-
 <script type="text/babel">
 /* 共有UIプリミティブ — window へエクスポート */
 const { useState, useRef, useEffect, useCallback } = React;
@@ -1167,7 +1165,6 @@ function AnimNum({ value, digits = 1, unit = "万円", size, cls = "", weight })
 Object.assign(window, { Yen, Tip, Segmented, NumberField, SliderField, Collapsible, SectionHead, InlineNote, TONES, AnimContext, AnimNum, useCountUp, BeginnerContext, Callout, CalloutIcon, BandReveal, PrimaryButton, QPromptRow, MeaningDot, DOT_HEX });
 
 </script>
-
 <script type="text/babel">
 /* AI解説：難しい用語に破線アンダーライン → クリック/タップでポップオーバー
    1行の静的定義（即時）＋ 質問チップ ＋ Claudeによる「あなたの場合は〜」回答。
@@ -1263,7 +1260,7 @@ function factsText(ctx) {
     `貯蓄${f(inp.savings,0)}万円`,
     `生活防衛費の目安（手取り6ヶ月）${f(reserve,0)}万円`,
     `金利が${rate.toFixed(1)}%→2.5%に上がると月々+${f(dM)}万円・${years}年総額で+${f(dTotal,0)}万円`,
-    `${sellYear}年後に標準シナリオで売ると、想定売却${f(ex.base.sale,0)}万円・ローン残債${f(ex.balance,0)}万円・手残り${ex.base.net>=0?"+":"−"}${f(Math.abs(ex.base.net),0)}万円`,
+    `${sellYear}年後に中心の見通しで売ると、売れる金額（予想）${f(ex.base.sale,0)}万円・ローンの残り${f(ex.balance,0)}万円・${ex.base.net>=0?"手元に残るお金+":"自己負担"}${f(Math.abs(ex.base.net),0)}万円`,
   ].filter(Boolean);
   return parts.join("、") + "。";
 }
@@ -1387,7 +1384,6 @@ function AiTerm({ termKey, ctx, children }) {
 Object.assign(window, { AiTerm, TERMS, AiCtxContext });
 
 </script>
-
 <script type="text/babel">
 /* SVGチャート群 — Rechartsを使わず自前描画（依存ゼロ） */
 const { useState: _useStateC, useRef: _useRefC } = React;
@@ -1528,10 +1524,11 @@ function ExitChart({ series, sellYear, onChange }) {
       </g>
       {/* 凡例（下部シナリオカードと同じ呼称・同じ色） */}
       <g transform={`translate(${padL + 6}, ${padT + 4})`} fontSize="11" fontWeight="600">
-        <LegendDot x={0}   label="残債" color="var(--blue)" />
-        <LegendDot x={62}  label="価値（強気）" color="var(--green)" dash />
-        <LegendDot x={166} label="価値（標準）" color="var(--amber)" />
-        <LegendDot x={262} label="価値（暴落）" color="var(--red)" dash />
+        <LegendDot x={0}   label="ローンの残り" color="var(--blue)" />
+        <LegendDot x={96}  label="売れる金額（予想）" color="var(--muted)" />
+        <LegendDot x={230} label="🥰 強気" color="var(--green)" dash />
+        <LegendDot x={294} label="😀 中心" color="var(--amber)" />
+        <LegendDot x={352} label="😭 暴落" color="var(--red)" dash />
       </g>
 
       {/* インタラクティブ層：縦線をドラッグして売却タイミングを変更 */}
@@ -1619,7 +1616,6 @@ function RatioTimeline({ base, withEv, pess, events }) {
 Object.assign(window, { HBars, ExitChart, RatioTimeline });
 
 </script>
-
 <script type="text/babel">
 /* ①初期入力フォーム */
 const { useState: useStateIF } = React;
@@ -1747,7 +1743,6 @@ function FieldError({ text }) {
 
 Object.assign(window, { InputForm });
 </script>
-
 <script type="text/babel">
 /* アウトプット1：購入予算の3ライン */
 const { useState: useStateB } = React;
@@ -2024,7 +2019,6 @@ function OutputBudget({ budget, isMansion, savings, baseBudget, drop, isUsed, co
 Object.assign(window, { OutputBudget, ConclusionBanner, BudgetCard, ClosingBreakdown });
 
 </script>
-
 <script type="text/babel">
 /* アウトプット2：金利変動シミュレーション */
 function OutputRate({ loan, years, baseRate }) {
@@ -2109,7 +2103,6 @@ function OutputRate({ loan, years, baseRate }) {
 Object.assign(window, { OutputRate });
 
 </script>
-
 <script type="text/babel">
 /* アウトプット3：出口戦略（売却シミュレーション）★キラー機能 */
 
@@ -2120,19 +2113,20 @@ const TYPE_TENDENCY = {
   new_house: "新築戸建ては建物部分の減価が大きく、木造の場合は法定耐用年数 22 年で建物価値がほぼゼロに近づきます。資産の大部分を土地の価値が占めるため、立地の将来性が価値維持の鍵になります。",
   used_house: "中古戸建ては建物の残存価値が少ない分、購入価格に占める土地比率が高くなります。土地値が底値に近ければ「これ以上は下がりにくい」一方で、建物の修繕・建替え費用を別途見込んでおく必要があります。",
 };
+
 function ExitSummaryCell({ s, tone, label, compact }) {
   const t = TONES[tone];
   const positive = s.net >= 0;
   return (
     <div className="exit-cell" style={{ background: t.bg, border: `1px solid ${t.line}`, borderRadius: 12, padding: compact ? "13px 13px 15px" : "16px 16px 18px", flex: 1, minWidth: compact ? 150 : 180 }}>
       <div className="exit-cell-label" style={{ fontSize: compact ? 11.5 : 12.5, fontWeight: 800, color: t.c, marginBottom: 10, lineHeight: 1.35 }}>{label}</div>
-      <SmallRow label="推定売却価格" value={s.sale} />
-      <SmallRow label="ローン残債" value={s.balance} minus />
+      <SmallRow label="売れる金額（予想）" value={s.sale} />
+      <SmallRow label="ローンの残り" value={s.balance} minus />
       <SmallRow label="売却手数料" value={s.fee} minus />
       <div style={{ borderTop: `1px dashed ${t.line}`, marginTop: 8, paddingTop: 10 }}>
-        <div style={{ fontSize: 11, color: "var(--ink-2)", fontWeight: 700, marginBottom: 2 }}>{positive ? "手元に残る" : "自己負担が必要"}</div>
+        <div style={{ fontSize: 11, color: "var(--ink-2)", fontWeight: 700, marginBottom: 2 }}>{positive ? "手元に残るお金" : "自己負担"}</div>
         <div className={"num exit-net " + (positive ? "pos" : "neg")} style={{ fontSize: compact ? 21 : 26, fontWeight: 900, color: positive ? "var(--green)" : "var(--red)" }}>
-          {positive ? "+" : "−"}<AnimNum value={Math.abs(s.net)} digits={0} />
+          {positive ? "+" : ""}<AnimNum value={Math.abs(s.net)} digits={0} />
         </div>
       </div>
     </div>
@@ -2147,15 +2141,15 @@ function SmallRow({ label, value, minus }) {
   );
 }
 
-/* 初心者モード用：「手元に残る」金額1つだけの最小セル。プラスは本文色・マイナスのときだけ赤 */
+/* 初心者モード用：金額1つだけの最小セル */
 function ExitNetCell({ s, label }) {
   const positive = s.net >= 0;
   return (
     <div className="exit-cell" style={{ background: "#fff", border: "1px solid var(--line)", borderRadius: 12, padding: "16px 16px 18px", flex: 1, minWidth: 150 }}>
       <div className="exit-cell-label" style={{ fontSize: 12.5, fontWeight: 800, color: "var(--ink-2)", marginBottom: 10, lineHeight: 1.35 }}>{label}</div>
-      <div style={{ fontSize: 11, color: "var(--ink-2)", fontWeight: 700, marginBottom: 2 }}>{positive ? "手元に残る" : "自己負担が必要"}</div>
+      <div style={{ fontSize: 11, color: "var(--ink-2)", fontWeight: 700, marginBottom: 2 }}>{positive ? "手元に残るお金" : "自己負担"}</div>
       <div className={"num exit-net " + (positive ? "pos" : "neg")} style={{ fontSize: 26, fontWeight: 900, color: positive ? "var(--ink)" : "var(--red)" }}>
-        {positive ? "+" : "−"}<AnimNum value={Math.abs(s.net)} digits={0} />
+        {positive ? "+" : ""}<AnimNum value={Math.abs(s.net)} digits={0} />
       </div>
     </div>
   );
@@ -2174,11 +2168,21 @@ function OutputExit({ price, loan, rate, years, sellYear, setSellYear, basePct, 
 
   return (
     <section style={{ marginTop: 56 }}>
-      <SectionHead kicker="OUTPUT 3 ── 出口戦略 ★" title={`${sellYear}年後に売ったら、手元にいくら残る？`}
-        sub="物件の推定価値とローン残債の推移を重ね、将来売却したときの『手残り』または『自己負担』を、強気・標準・暴落などのシナリオで可視化します。※ 実際の価値はエリアや物件の間取り・条件によって大きく異なります。詳細は不動産・金融の専門家の意見も参考にしてください。" />
+      <SectionHead kicker="OUTPUT 3 ── 出口戦略 ★" title={`${sellYear}年後に売ったときの収支`}
+        sub="物件の推定価値とローンの残りを重ね、売却したときの「手元に残るお金」または「自己負担」を5つのシナリオで可視化します。※ 実際の価値はエリアや物件の条件によって大きく異なります。詳細は不動産・金融の専門家の意見も参考にしてください。" />
+
+      {/* 結論1文 */}
+      <div style={{ marginTop: 14 }}>
+        <Callout tone={baseNet >= 0 ? "green" : "red"}>
+          {baseNet >= 0
+            ? <><strong>{sellYear}年後</strong>に売ると、ローンを完済して<strong className="num">{Calc.fmtMan(baseNet, 0)}万円</strong>が<strong>手元に残ります</strong>（😀 中心の見通し）</>
+            : <><strong>{sellYear}年後</strong>に売ると、売却価格がローン残高を下回り、<strong className="num">{Calc.fmtMan(Math.abs(baseNet), 0)}万円の自己負担</strong>が必要です（😀 中心の見通し）</>
+          }
+        </Callout>
+      </div>
 
       {/* チャート */}
-      <div className="card" style={{ padding: "20px 18px 16px" }}>
+      <div className="card" style={{ padding: "20px 18px 16px", marginTop: 14 }}>
         <ExitChart series={series} sellYear={sellYear} onChange={setSellYear} />
         <div style={{ textAlign: "center", fontSize: 11.5, color: "var(--muted)", fontWeight: 700, marginTop: 4 }}>
           ↔ グラフの縦線をドラッグすると、売却タイミングをその場で動かせます
@@ -2201,9 +2205,9 @@ function OutputExit({ price, loan, rate, years, sellYear, setSellYear, basePct, 
               onChange={setSellYear} format={(v) => `購入${v}年後`} />
           </div>
           <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 12, color: "var(--muted)", fontWeight: 700 }}>ベースシナリオでの結果</div>
+            <div style={{ fontSize: 12, color: "var(--muted)", fontWeight: 700 }}>😀 中心の見通しでの収支</div>
             <div className={"num " + (baseNet >= 0 ? "em-soft" : "")} style={{ fontSize: 22, fontWeight: 900, color: baseNet >= 0 ? "var(--green)" : "var(--red)" }}>
-              {baseNet >= 0 ? `売却で+${Calc.fmtMan(baseNet, 0)}万円` : `${Calc.fmtMan(Math.abs(baseNet), 0)}万円の自己負担`}
+              {baseNet >= 0 ? `手元に残るお金 +${Calc.fmtMan(baseNet, 0)}万円` : `自己負担 ${Calc.fmtMan(Math.abs(baseNet), 0)}万円`}
             </div>
           </div>
         </div>
@@ -2212,20 +2216,20 @@ function OutputExit({ price, loan, rate, years, sellYear, setSellYear, basePct, 
         {beginner ? (
           <>
             <div style={{ fontSize: 12, color: "var(--muted)", fontWeight: 700, marginTop: 22, marginBottom: 10 }}>
-              購入{sellYear}年後の手残り（中心・最悪の2シナリオ）
+              購入{sellYear}年後の収支（中心の見通し・最悪）
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 10 }}>
-              <ExitNetCell s={sum.base} label="標準（中心の見通し）" />
-              <ExitNetCell s={sum.crash} label="暴落（最悪・リーマン級）" />
+              <ExitNetCell s={sum.base} label="😀 ほぼ横ばい（中心の見通し）" />
+              <ExitNetCell s={sum.crash} label="😭 暴落（リーマン級）" />
             </div>
             <div style={{ marginTop: 14 }}>
               <BandReveal title="全シナリオ・内訳を見る">
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 10, paddingBottom: 4 }}>
-                  <ExitSummaryCell compact s={{ ...sum.strong, balance: sum.balance }} tone="green" label="強気（人気化・再開発）" />
-                  <ExitSummaryCell compact s={{ ...sum.mild, balance: sum.balance }} tone="green" label="やや強気（横ばい〜微増）" />
-                  <ExitSummaryCell compact s={{ ...sum.base, balance: sum.balance }} tone="amber" label="標準（築年数なりの減価）" />
-                  <ExitSummaryCell compact s={{ ...sum.weak, balance: sum.balance }} tone="amber" label="やや弱気（やや早い減価）" />
-                  <ExitSummaryCell compact s={{ ...sum.crash, balance: sum.balance }} tone="red" label="暴落（リーマン級）" />
+                  <ExitSummaryCell compact s={{ ...sum.strong, balance: sum.balance }} tone="green" label="🥰 大きく値上がり" />
+                  <ExitSummaryCell compact s={{ ...sum.mild, balance: sum.balance }} tone="green" label="😆 値上がり" />
+                  <ExitSummaryCell compact s={{ ...sum.base, balance: sum.balance }} tone="amber" label="😀 ほぼ横ばい（中心の見通し）" />
+                  <ExitSummaryCell compact s={{ ...sum.weak, balance: sum.balance }} tone="amber" label="😅 値下がり" />
+                  <ExitSummaryCell compact s={{ ...sum.crash, balance: sum.balance }} tone="red" label="😭 暴落（リーマン級）" />
                 </div>
               </BandReveal>
             </div>
@@ -2233,21 +2237,21 @@ function OutputExit({ price, loan, rate, years, sellYear, setSellYear, basePct, 
         ) : (
           <>
             <div style={{ fontSize: 12, color: "var(--muted)", fontWeight: 700, marginTop: 22, marginBottom: 10 }}>
-              売却タイミングでの手残り／自己負担（5シナリオ）
-              <span style={{ fontWeight: 400, marginLeft: 6 }}>※ チャートは見やすさのため「強気・標準・暴落」の3本を表示しています</span>
+              購入{sellYear}年後の収支（5シナリオ）
+              <span style={{ fontWeight: 400, marginLeft: 6 }}>※ チャートは見やすさのため「🥰→😀→😭」の3本を表示しています</span>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 10 }}>
-              <ExitSummaryCell compact s={{ ...sum.strong, balance: sum.balance }} tone="green" label="強気（人気化・再開発）" />
-              <ExitSummaryCell compact s={{ ...sum.mild, balance: sum.balance }} tone="green" label="やや強気（横ばい〜微増）" />
-              <ExitSummaryCell compact s={{ ...sum.base, balance: sum.balance }} tone="amber" label="標準（築年数なりの減価）" />
-              <ExitSummaryCell compact s={{ ...sum.weak, balance: sum.balance }} tone="amber" label="やや弱気（やや早い減価）" />
-              <ExitSummaryCell compact s={{ ...sum.crash, balance: sum.balance }} tone="red" label="暴落（リーマン級）" />
+              <ExitSummaryCell compact s={{ ...sum.strong, balance: sum.balance }} tone="green" label="🥰 大きく値上がり" />
+              <ExitSummaryCell compact s={{ ...sum.mild, balance: sum.balance }} tone="green" label="😆 値上がり" />
+              <ExitSummaryCell compact s={{ ...sum.base, balance: sum.balance }} tone="amber" label="😀 ほぼ横ばい（中心の見通し）" />
+              <ExitSummaryCell compact s={{ ...sum.weak, balance: sum.balance }} tone="amber" label="😅 値下がり" />
+              <ExitSummaryCell compact s={{ ...sum.crash, balance: sum.balance }} tone="red" label="😭 暴落（リーマン級）" />
             </div>
           </>
         )}
       </div>
 
-      {/* 自己負担が必要とは？ */}
+      {/* 自己負担とは？ */}
       <div style={{ marginTop: 16 }}>
         {beginner ? (
           <Callout tone="neutral">
@@ -2276,14 +2280,14 @@ function OutputExit({ price, loan, rate, years, sellYear, setSellYear, basePct, 
       {/* 根拠 */}
       {beginner ? (
         <div style={{ marginTop: 16 }}>
-          <BandReveal title="変動シナリオの根拠（5段階）">
+          <BandReveal title="シナリオの根拠（5段階）">
             <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 10, fontSize: 13.5, lineHeight: 1.7, color: "var(--ink-2)" }}>
               {[
-                { tone: "green", t: "強気（+1%/年）", d: "再開発・人口増・人気化エリアで実際に見られた値上がり水準。" },
-                { tone: "green", t: "やや強気（0%/年）", d: "横ばい〜微増。立地が良く需要が底堅いケース。" },
-                { tone: "blue", t: `標準（年率 ${Calc.fmtMan(Math.abs(basePct))}%）`, d: "REINS実データ準拠の、築年数帯に応じた減価。" },
-                { tone: "amber", t: "やや弱気（標準 −1pt）", d: "標準よりやや早く価値が下がるケース。" },
-                { tone: "red", t: "暴落（リーマン級）", d: "標準減価に加え、最初の2〜3年で追加 −12% の市場下落を織り込み、以後はベースペース。" },
+                { tone: "green", t: "🥰 大きく値上がり（+1%/年）", d: "再開発・人口増・人気化エリアで実際に見られた値上がり水準。" },
+                { tone: "green", t: "😆 値上がり（0%/年）", d: "横ばい〜微増。立地が良く需要が底堅いケース。" },
+                { tone: "blue", t: `😀 ほぼ横ばい（年率 ${Calc.fmtMan(Math.abs(basePct))}%）`, d: "REINS実データ準拠の、築年数帯に応じた減価。中心の見通しとして使用しています。" },
+                { tone: "amber", t: "😅 値下がり（標準 −1pt）", d: "標準よりやや早く価値が下がるケース。" },
+                { tone: "red", t: "😭 暴落（リーマン級）", d: "標準減価に加え、最初の2〜3年で追加 −12% の市場下落を織り込み、以後はベースペース。" },
               ].map((it, i) => (
                 <li key={i} style={{ display: "flex", gap: 9, alignItems: "flex-start" }}>
                   <span style={{ marginTop: 6 }}><MeaningDot tone={it.tone} /></span>
@@ -2303,13 +2307,13 @@ function OutputExit({ price, loan, rate, years, sellYear, setSellYear, basePct, 
         </div>
       ) : (
       <div className="card" style={{ marginTop: 16, padding: "0 22px" }}>
-        <Collapsible title="変動シナリオの根拠（5段階）" icon="📊">
+        <Collapsible title="シナリオの根拠（5段階）" icon="📊">
           <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13.5, lineHeight: 1.8, color: "var(--ink-2)" }}>
-            <li><strong style={{ color: "var(--green)" }}>強気（+1%/年）</strong>：再開発・人口増・人気化エリアで実際に見られた値上がり水準。</li>
-            <li><strong style={{ color: "var(--green)" }}>やや強気（0%/年）</strong>：横ばい〜微増。立地が良く需要が底堅いケース。</li>
-            <li><strong style={{ color: "var(--ink)" }}>標準（年率 {Calc.fmtMan(Math.abs(basePct))}%）</strong>：REINS実データ準拠の、築年数帯に応じた減価。</li>
-            <li><strong style={{ color: "var(--amber)" }}>やや弱気（標準 −1pt）</strong>：標準よりやや早く価値が下がるケース。</li>
-            <li><strong style={{ color: "var(--red)" }}>暴落（リーマン級）</strong>：標準減価に加え、最初の2〜3年で追加 −12% の市場下落を織り込み、以後はベースペース。下落の上限としてリーマン級を想定。</li>
+            <li><strong style={{ color: "var(--green)" }}>🥰 大きく値上がり（+1%/年）</strong>：再開発・人口増・人気化エリアで実際に見られた値上がり水準。</li>
+            <li><strong style={{ color: "var(--green)" }}>😆 値上がり（0%/年）</strong>：横ばい〜微増。立地が良く需要が底堅いケース。</li>
+            <li><strong style={{ color: "var(--ink)" }}>😀 ほぼ横ばい（年率 {Calc.fmtMan(Math.abs(basePct))}%）</strong>：REINS実データ準拠の、築年数帯に応じた減価。中心の見通しとして使用しています。</li>
+            <li><strong style={{ color: "var(--amber)" }}>😅 値下がり（標準 −1pt）</strong>：標準よりやや早く価値が下がるケース。</li>
+            <li><strong style={{ color: "var(--red)" }}>😭 暴落（リーマン級）</strong>：標準減価に加え、最初の2〜3年で追加 −12% の市場下落を織り込み、以後はベースペース。下落の上限としてリーマン級を想定。</li>
           </ul>
           {TYPE_TENDENCY[typeKey] && (
             <div style={{ marginTop: 16, padding: "14px 16px", background: "var(--blue-bg)", border: "1px solid var(--blue-line)", borderRadius: 10 }}>
@@ -2327,7 +2331,6 @@ function OutputExit({ price, loan, rate, years, sellYear, setSellYear, basePct, 
 Object.assign(window, { OutputExit });
 
 </script>
-
 <script type="text/babel">
 /* ②途中入力（パーソナライズ） */
 const { useState: useStateSI } = React;
@@ -2501,7 +2504,6 @@ function SecondaryInput({ initial, onApply, onClose, savings, normalClosing, beg
 Object.assign(window, { SecondaryInput });
 
 </script>
-
 <script type="text/babel">
 /* アウトプット4：ライフイベント反映 — 予算ラインを再計算し、影響を一覧＋家計の警告で示す */
 
@@ -2675,7 +2677,6 @@ function Advice({ text }) {
 Object.assign(window, { OutputImpact });
 
 </script>
-
 <script type="text/babel">
 /* 初心者モード ── 「減らす・段階的に出す・意味に翻訳する」
    計算層・データは detailed と完全共通。ここは「何を見せるか」だけを制御する。
@@ -2800,7 +2801,6 @@ function BeginnerView({ conclusionEl, budget, budgetBase, drop, isMansion, avail
 Object.assign(window, { BeginnerView });
 
 </script>
-
 <script type="text/babel">
 /* メインアプリ — 状態管理・スティッキースライダー・全体レイアウト */
 const { useState: useStateApp, useMemo, useRef: useRefApp } = React;
@@ -3437,6 +3437,5 @@ function Root() {
 ReactDOM.createRoot(document.getElementById("root")).render(<Root />);
 
 </script>
-
 </body>
 </html>
